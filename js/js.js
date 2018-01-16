@@ -15,7 +15,7 @@ $('document').ready(function() {
 
   var clearDisplay = () => {
     onDisplay = [];
-    displayNum.text('');
+    displayNum.text('0');
   };
 
   var isInt = (n) => {
@@ -72,7 +72,8 @@ $('document').ready(function() {
     clearDisplay();
     calcTracker = [];
     displayClearTracker = 0;
-    afterSumTracker = 0; 
+    afterSumTracker = 0;
+    displayNum.text('0'); 
   });
   
   //CE

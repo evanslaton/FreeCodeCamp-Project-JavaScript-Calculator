@@ -19,22 +19,22 @@ $('document').ready(function() {
   var doMath = () => {
     switch (calcTracker[1]) {
       case '/':
-        calcTracker = [parseFloat(calcTracker[0]) / parseFloat(displayNum.text())];
+        calcTracker = [(parseFloat(calcTracker[0]) / parseFloat(displayNum.text())).toFixed(2)];
         console.log(calcTracker);
         return calcTracker;
         break;
       case '*':
-        calcTracker = [parseFloat(calcTracker[0]) * parseFloat(displayNum.text())];
+        calcTracker = [(parseFloat(calcTracker[0]) * parseFloat(displayNum.text())).toFixed(2)];
         console.log(calcTracker);
         return calcTracker;
         break;
       case '-':
-        calcTracker = [parseFloat(calcTracker[0]) - parseFloat(displayNum.text())];
+        calcTracker = [(parseFloat(calcTracker[0]) - parseFloat(displayNum.text())).toFixed(2)];
         console.log(calcTracker);
         return calcTracker;
         break;
       case '+':
-        calcTracker = [parseFloat(calcTracker[0]) + parseFloat(displayNum.text())];
+        calcTracker = [(parseFloat(calcTracker[0]) + parseFloat(displayNum.text())).toFixed(2)];
         console.log(calcTracker);
         return calcTracker;
         break;
@@ -58,7 +58,8 @@ $('document').ready(function() {
 
   //Numbers and decimal
   $('.num-button').on('click', function() {
-    if (onDisplay.length < 14) {
+
+    if (onDisplay.length < 11) {
 
       if (displayClearTracker > 0) {
         clearDisplay();  
@@ -77,22 +78,25 @@ $('document').ready(function() {
       onDisplay.push($(this).find($('.num')).text());
 
       if (onDisplay.indexOf('.') !== -1) {
-        console.log('yolo');
 
         for (i = onDisplay.indexOf('.') + 1; i < onDisplay.length; i++) {
           if (onDisplay[i] === '.') {
             onDisplay.splice(-1, 1);
-            console.log('yolo2');
           }
         }
 
         if (!Number.isInteger(parseFloat(onDisplay[0])) && decimalCounter > 0) {
             if (onDisplay[onDisplay.length - 1] === '.') {
-              onDisplay.splice(-1, 1);
-              console.log('yolo3');            
+              onDisplay.splice(-1, 1);   
             }
           }
       }
+
+      if (onDisplay[0] === '0' && onDisplay[1] === '0') {
+        console.log('removing');
+        onDisplay.splice(-1, 1);
+      }
+
       displayNum.text(onDisplay.join(''));
       displayClearTracker = 0; 
     }
@@ -127,8 +131,6 @@ $('document').ready(function() {
       afterSumTracker++;
       decimalCounter++;
     }
-
-
   }); 
 
 

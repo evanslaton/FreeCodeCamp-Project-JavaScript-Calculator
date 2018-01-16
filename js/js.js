@@ -56,6 +56,10 @@ $('document').ready(function() {
     }
   });  
 
+  $('.num-button').on('click', function() {
+    decimalCounter = 1;
+  });
+
   //Numbers and decimal
   $('.num-button').on('click', function() {
     if (onDisplay.length < 14) {
@@ -79,10 +83,12 @@ $('document').ready(function() {
       }
       onDisplay.push($(this).find($('.num')).text());
 
-      // console.log('onDisplay before: ' + onDisplay);
-      // console.log('calcTracker before: ' + calcTracker);
+      console.log('onDisplay before: ' + onDisplay);
+      console.log('calcTracker before: ' + calcTracker);
+      console.log('decimalCounter before: ' + decimalCounter);      
       if (onDisplay.indexOf('.') !== -1) {
         console.log('yolo');
+
         for (i = onDisplay.indexOf('.') + 1; i < onDisplay.length; i++) {
           if (onDisplay[i] === '.') {
             onDisplay.splice(-1, 1);
@@ -90,7 +96,7 @@ $('document').ready(function() {
           }
         }
 
-      if (!Number.isInteger(parseFloat(calcTracker))) {
+      if (!Number.isInteger(parseFloat(calcTracker)) && decimalCounter > 0 && onDisplay[0] !== '.') {
           if (onDisplay[onDisplay.length - 1] === '.') {
             onDisplay.splice(-1, 1);
             console.log('yolo3');            
@@ -98,9 +104,11 @@ $('document').ready(function() {
         }
       }
       displayNum.text(onDisplay.join(''));
-      displayClearTracker = 0;     
+      displayClearTracker = 0;
+      decimalCounter = 0;
       console.log('onDisplay after: ' + onDisplay);
-            console.log('calcTracker before: ' + calcTracker);
+            console.log('calcTracker after: ' + calcTracker);
+      console.log('decimalCounter after: ' + decimalCounter);  
     }
   });
 

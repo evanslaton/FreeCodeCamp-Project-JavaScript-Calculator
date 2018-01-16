@@ -6,14 +6,6 @@ $('document').ready(function() {
   var afterSumTracker = 0;
   var decimalCounter = 0;
   var displayNum = $('#display-num');
-
-  // var charCodes = {
-  //   '&#37;': '%',
-  //   '&#47;': '/',
-  //   '&#42;': '*',
-  //   '&#45;': '-',
-  //   '&#43;': '+'
-  // };
   
   var clearCalcTracker = () => {
     calcTracker = [];
@@ -49,38 +41,6 @@ $('document').ready(function() {
     }
   };
 
-  // var numFunction = function() {
-  //   if (onDisplay.length < 14) {
-  //     if (displayClearTracker > 0) {
-  //       clearDisplay();
-  //       // console.log('calcTracker: ' + calcTracker);   
-  //     }
-  //     if (afterSumTracker === 1) {
-  //       // console.log(afterSumTracker);
-  //       clearCalcTracker();
-  //       afterSumTracker = 0; 
-  //       // console.log('calcTracker: ' + calcTracker);   
-  //     } else if (afterSumTracker === 2) {
-  //       clearDisplay();
-  //       displayNum.text(onDisplay.join(''));
-  //       calcTracker.push($(this).find($('.num')).text());
-  //       afterSumTracker = 0;
-  //       // console.log(calcTracker);   
-  //     }
-  //     onDisplay.push($(this).find($('.num')).text());
-
-  //     if (onDisplay[0] === '.') {
-  //       onDisplay.unshift('0');
-  //     }
-
-  //     displayNum.text(onDisplay.join(''));
-  //     displayClearTracker = 0;     
-  //     console.log('onDisplay: ' + onDisplay[0]);   
-  //   }
-  // };
-
-
-
   //AC
   $('#ac').on('click', function() {
     clearDisplay();
@@ -99,10 +59,12 @@ $('document').ready(function() {
   //Numbers and decimal
   $('.num-button').on('click', function() {
     if (onDisplay.length < 14) {
+
       if (displayClearTracker > 0) {
         clearDisplay();
         // console.log('calcTracker: ' + calcTracker);   
       }
+
       if (afterSumTracker === 1) {
         // console.log(afterSumTracker);
         clearCalcTracker();
@@ -117,13 +79,28 @@ $('document').ready(function() {
       }
       onDisplay.push($(this).find($('.num')).text());
 
+      // console.log('onDisplay before: ' + onDisplay);
+      // console.log('calcTracker before: ' + calcTracker);
       if (onDisplay.indexOf('.') !== -1) {
         console.log('yolo');
-      }
+        for (i = onDisplay.indexOf('.') + 1; i < onDisplay.length; i++) {
+          if (onDisplay[i] === '.') {
+            onDisplay.splice(-1, 1);
+            console.log('yolo2');
+          }
+        }
 
+      if (!Number.isInteger(parseFloat(calcTracker))) {
+          if (onDisplay[onDisplay.length - 1] === '.') {
+            onDisplay.splice(-1, 1);
+            console.log('yolo3');            
+          }
+        }
+      }
       displayNum.text(onDisplay.join(''));
       displayClearTracker = 0;     
-      console.log('onDisplay: ' + onDisplay[0]);   
+      console.log('onDisplay after: ' + onDisplay);
+            console.log('calcTracker before: ' + calcTracker);
     }
   });
 
@@ -145,11 +122,13 @@ $('document').ready(function() {
       // console.log(calcTracker);
       afterSumTracker++;      
     }
+
     decimalCounter = 0;
   }); 
 
   //Sum
-  $('#sum').on('click', function() {       
+  $('#sum').on('click', function() {   
+
     if (calcTracker.length > 1 && displayNum.text() !== '') {
       doMath();
       displayNum.text(calcTracker);

@@ -1,12 +1,14 @@
 $('document').ready(function() {
-  
+
   var onDisplay = [];
   var calcTracker = [];
   var displayClearTracker = 0;
   var afterSumTracker = 0;
   var decimalCounter = 0;
+  var percent;
   var displayNum = $('#display-num');
-  
+  var answer;
+
   var clearCalcTracker = () => {
     calcTracker = [];
   }
@@ -16,27 +18,51 @@ $('document').ready(function() {
     displayNum.text('');
   };
 
+  var isInt = (n) => {
+     return n % 1 === 0;
+  };
+
+  var tooBig = () => {
+    if (answer > 999999999) {
+      displayNum.text('Too big!');
+      onDisplay = [];
+      calcTracker = [];
+      displayClearTracker = 0;
+      afterSumTracker = 0;
+      decimalCounter = 0;
+      percent = undefined;
+    } else {
+      displayNum.text(answer);
+    }
+  }
+
   var doMath = () => {
+    if (onDisplay.indexOf('%') !== -1) {
+      percent = parseFloat(onDisplay.join(''));
+      percent = (percent * parseFloat(calcTracker[0])) / 100;
+      displayNum.text(percent.toString());
+    }
+
     switch (calcTracker[1]) {
       case '/':
         calcTracker = [parseFloat(calcTracker[0]) / parseFloat(displayNum.text())];
-        console.log(calcTracker);
-        return calcTracker;
+        answer = calcTracker[0];
+        return answer;
         break;
       case '*':
         calcTracker = [parseFloat(calcTracker[0]) * parseFloat(displayNum.text())];
-        console.log(calcTracker);
-        return calcTracker;
+        answer = calcTracker[0];
+        return answer;
         break;
       case '-':
         calcTracker = [parseFloat(calcTracker[0]) - parseFloat(displayNum.text())];
-        console.log(calcTracker);
-        return calcTracker;
+        answer = calcTracker[0];
+        return answer;
         break;
       case '+':
         calcTracker = [parseFloat(calcTracker[0]) + parseFloat(displayNum.text())];
-        console.log(calcTracker);
-        return calcTracker;
+        answer = calcTracker[0];
+        return answer;
         break;
     }
   };
@@ -59,45 +85,48 @@ $('document').ready(function() {
   //Numbers and decimal
   $('.num-button').on('click', function() {
 
-    if (onDisplay.length < 11) {
+    if (onDisplay.length < 9) {
 
-      if (displayClearTracker > 0) {
-        clearDisplay();  
-      }
+      if (onDisplay.indexOf('%') === -1) {
 
-      if (afterSumTracker === 1) {
-        clearCalcTracker();
-        afterSumTracker = 0;  
-      } else if (afterSumTracker === 2) {
-        clearDisplay();
-        displayNum.text(onDisplay.join(''));
-        calcTracker.push($(this).find($('.num')).text());
-        afterSumTracker = 0;
-      }
-
-      onDisplay.push($(this).find($('.num')).text());
-
-      if (onDisplay.indexOf('.') !== -1) {
-
-        for (i = onDisplay.indexOf('.') + 1; i < onDisplay.length; i++) {
-          if (onDisplay[i] === '.') {
-            onDisplay.splice(-1, 1);
-          }
+        if (displayClearTracker > 0) {
+          clearDisplay();  
         }
 
-        if (!Number.isInteger(parseFloat(onDisplay[0])) && decimalCounter > 0) {
-            if (onDisplay[onDisplay.length - 1] === '.') {
-              onDisplay.splice(-1, 1);   
+        if (afterSumTracker === 1) {
+          clearCalcTracker();
+          afterSumTracker = 0;  
+        } else if (afterSumTracker === 2) {
+          clearDisplay();
+          displayNum.text(onDisplay.join(''));
+          calcTracker.push($(this).find($('.num')).text());
+          afterSumTracker = 0;
+        }
+
+        onDisplay.push($(this).find($('.num')).text());
+
+        if (onDisplay.indexOf('.') !== -1) {
+
+          for (i = onDisplay.indexOf('.') + 1; i < onDisplay.length; i++) {
+            if (onDisplay[i] === '.') {
+              onDisplay.splice(-1, 1);
             }
           }
-      }
 
-      if (onDisplay[0] === '0' && onDisplay.length > 1 && onDisplay[1] !== '.') {
-        onDisplay.splice(0, 1);
-      }
+          if (!Number.isInteger(parseFloat(onDisplay[0])) && decimalCounter > 0) {
+              if (onDisplay[onDisplay.length - 1] === '.') {
+                onDisplay.splice(-1, 1);   
+              }
+            }
+        }
 
-      displayNum.text(onDisplay.join(''));
-      displayClearTracker = 0; 
+        if (onDisplay[0] === '0' && onDisplay.length > 1 && onDisplay[1] !== '.') {
+          onDisplay.splice(0, 1);
+        }
+
+        displayNum.text(onDisplay.join(''));
+        displayClearTracker = 0; 
+      }
     }
   });
 
@@ -111,13 +140,12 @@ $('document').ready(function() {
       } else if (calcTracker.length === 2 && afterSumTracker === 0  && displayNum.text() !== '') {
         doMath();
         clearDisplay();
-        calcTracker.push($(this).find($('p')).text());      
-        displayNum.text(calcTracker[0]);
+        calcTracker.push($(this).find($('p')).text());
+        tooBig();
       } else if (calcTracker.length === 1 && afterSumTracker === 1  && displayNum.text() !== '') {
         calcTracker.push($(this).find($('p')).text());
         afterSumTracker++;      
       }
-     console.log(onDisplay);
     }
   }); 
 
@@ -126,10 +154,9 @@ $('document').ready(function() {
 
     if (calcTracker.length > 1 && displayNum.text() !== '') {
       doMath();
-      displayNum.text(calcTracker);
-      onDisplay = [calcTracker[0].toString()];
       afterSumTracker++;
       decimalCounter++;
+      tooBig();
     }
   }); 
 
@@ -137,4 +164,41 @@ $('document').ready(function() {
   
   
   
+
+
+  $('#percent').on('click', function() {
+    if (onDisplay[0]) {
+    // console.log('onDisplay before: ' + onDisplay);
+    // console.log('calcTracker before: ' + calcTracker);
+
+      if (onDisplay.indexOf('%') === -1 && calcTracker[0]) {
+        onDisplay.push($(this).find($('p')).text());
+        displayNum.text(onDisplay.join(''));
+      }
+
+
+    // console.log('onDisplay after: ' + onDisplay);
+    // console.log('calcTracker after: ' + calcTracker);
+    }
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });

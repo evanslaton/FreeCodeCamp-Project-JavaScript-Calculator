@@ -105,7 +105,8 @@ p {
   text-align: right;
   font-family: serif;
   font-size: 40px;
-  margin-right: 10px;
+  margin-right: 13px;
+  font-family: "OverPass Mono", monospace;
 }
 
 .special {

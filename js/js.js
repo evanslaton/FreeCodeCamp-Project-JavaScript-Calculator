@@ -19,22 +19,22 @@ $('document').ready(function() {
   var doMath = () => {
     switch (calcTracker[1]) {
       case '/':
-        calcTracker = [(parseFloat(calcTracker[0]) / parseFloat(displayNum.text())).toFixed(2)];
+        calcTracker = [parseFloat(calcTracker[0]) / parseFloat(displayNum.text())];
         console.log(calcTracker);
         return calcTracker;
         break;
       case '*':
-        calcTracker = [(parseFloat(calcTracker[0]) * parseFloat(displayNum.text())).toFixed(2)];
+        calcTracker = [parseFloat(calcTracker[0]) * parseFloat(displayNum.text())];
         console.log(calcTracker);
         return calcTracker;
         break;
       case '-':
-        calcTracker = [(parseFloat(calcTracker[0]) - parseFloat(displayNum.text())).toFixed(2)];
+        calcTracker = [parseFloat(calcTracker[0]) - parseFloat(displayNum.text())];
         console.log(calcTracker);
         return calcTracker;
         break;
       case '+':
-        calcTracker = [(parseFloat(calcTracker[0]) + parseFloat(displayNum.text())).toFixed(2)];
+        calcTracker = [parseFloat(calcTracker[0]) + parseFloat(displayNum.text())];
         console.log(calcTracker);
         return calcTracker;
         break;
@@ -92,9 +92,8 @@ $('document').ready(function() {
           }
       }
 
-      if (onDisplay[0] === '0' && onDisplay[1] === '0') {
-        console.log('removing');
-        onDisplay.splice(-1, 1);
+      if (onDisplay[0] === '0' && onDisplay.length > 1 && onDisplay[1] !== '.') {
+        onDisplay.splice(0, 1);
       }
 
       displayNum.text(onDisplay.join(''));

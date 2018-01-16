@@ -161,45 +161,13 @@ $('document').ready(function() {
     }
   }); 
 
-
-  
-  
-  
-
-
   $('#percent').on('click', function() {
     if (onDisplay[0]) {
-    // console.log('onDisplay before: ' + onDisplay);
-    // console.log('calcTracker before: ' + calcTracker);
-
       if (onDisplay.indexOf('%') === -1 && calcTracker[0]) {
         onDisplay.push($(this).find($('p')).text());
         displayNum.text(onDisplay.join(''));
       }
-
-
-    // console.log('onDisplay after: ' + onDisplay);
-    // console.log('calcTracker after: ' + calcTracker);
     }
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 });

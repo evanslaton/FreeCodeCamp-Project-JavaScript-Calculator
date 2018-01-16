@@ -56,36 +56,26 @@ $('document').ready(function() {
     }
   });  
 
-  $('.num-button').on('click', function() {
-    decimalCounter = 1;
-  });
-
   //Numbers and decimal
   $('.num-button').on('click', function() {
     if (onDisplay.length < 14) {
 
       if (displayClearTracker > 0) {
-        clearDisplay();
-        // console.log('calcTracker: ' + calcTracker);   
+        clearDisplay();  
       }
 
       if (afterSumTracker === 1) {
-        // console.log(afterSumTracker);
         clearCalcTracker();
-        afterSumTracker = 0; 
-        // console.log('calcTracker: ' + calcTracker);   
+        afterSumTracker = 0;  
       } else if (afterSumTracker === 2) {
         clearDisplay();
         displayNum.text(onDisplay.join(''));
         calcTracker.push($(this).find($('.num')).text());
         afterSumTracker = 0;
-        // console.log(calcTracker);   
       }
+
       onDisplay.push($(this).find($('.num')).text());
 
-      console.log('onDisplay before: ' + onDisplay);
-      console.log('calcTracker before: ' + calcTracker);
-      console.log('decimalCounter before: ' + decimalCounter);      
       if (onDisplay.indexOf('.') !== -1) {
         console.log('yolo');
 
@@ -96,19 +86,15 @@ $('document').ready(function() {
           }
         }
 
-      if (!Number.isInteger(parseFloat(calcTracker)) && decimalCounter > 0 && onDisplay[0] !== '.') {
-          if (onDisplay[onDisplay.length - 1] === '.') {
-            onDisplay.splice(-1, 1);
-            console.log('yolo3');            
+        if (!Number.isInteger(parseFloat(onDisplay[0])) && decimalCounter > 0) {
+            if (onDisplay[onDisplay.length - 1] === '.') {
+              onDisplay.splice(-1, 1);
+              console.log('yolo3');            
+            }
           }
-        }
       }
       displayNum.text(onDisplay.join(''));
-      displayClearTracker = 0;
-      decimalCounter = 0;
-      console.log('onDisplay after: ' + onDisplay);
-            console.log('calcTracker after: ' + calcTracker);
-      console.log('decimalCounter after: ' + decimalCounter);  
+      displayClearTracker = 0; 
     }
   });
 
@@ -123,11 +109,8 @@ $('document').ready(function() {
       clearDisplay();
       calcTracker.push($(this).find($('p')).text());      
       displayNum.text(calcTracker[0]);
-      // console.log('calcTracker: ' + calcTracker);
-      // console.log('afterSumTracker: ' + afterSumTracker);
     } else if (calcTracker.length === 1 && afterSumTracker === 1  && displayNum.text() !== '') {
       calcTracker.push($(this).find($('p')).text());
-      // console.log(calcTracker);
       afterSumTracker++;      
     }
 
@@ -142,12 +125,7 @@ $('document').ready(function() {
       displayNum.text(calcTracker);
       onDisplay = [calcTracker[0].toString()];
       afterSumTracker++;
-      decimalCounter = 0;
-      // console.log('sum displayNum: ' + displayNum.text());
-      // console.log('clearTracker: ' + displayClearTracker);
-      // console.log('onDisplay: ' + onDisplay);
-      // console.log('calcTracker: ' + calcTracker);
-      // console.log('afterSumTracker: ' + afterSumTracker);      
+      decimalCounter++;
     }
 
 

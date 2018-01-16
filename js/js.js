@@ -103,21 +103,22 @@ $('document').ready(function() {
 
   //Does Math
   $('.maths').on('click', function() {
-    if (calcTracker.length === 0  && displayNum.text() !== '') {
-      calcTracker.push(displayNum.text());
-      calcTracker.push($(this).find($('p')).text());
-      displayClearTracker++;
-    } else if (calcTracker.length === 2 && afterSumTracker === 0  && displayNum.text() !== '') {
-      doMath();
-      clearDisplay();
-      calcTracker.push($(this).find($('p')).text());      
-      displayNum.text(calcTracker[0]);
-    } else if (calcTracker.length === 1 && afterSumTracker === 1  && displayNum.text() !== '') {
-      calcTracker.push($(this).find($('p')).text());
-      afterSumTracker++;      
+    if (onDisplay[0]) {
+      if (calcTracker.length === 0  && displayNum.text() !== '') {
+        calcTracker.push(displayNum.text());
+        calcTracker.push($(this).find($('p')).text());
+        displayClearTracker++;
+      } else if (calcTracker.length === 2 && afterSumTracker === 0  && displayNum.text() !== '') {
+        doMath();
+        clearDisplay();
+        calcTracker.push($(this).find($('p')).text());      
+        displayNum.text(calcTracker[0]);
+      } else if (calcTracker.length === 1 && afterSumTracker === 1  && displayNum.text() !== '') {
+        calcTracker.push($(this).find($('p')).text());
+        afterSumTracker++;      
+      }
+     console.log(onDisplay);
     }
-
-    decimalCounter = 0;
   }); 
 
   //Sum

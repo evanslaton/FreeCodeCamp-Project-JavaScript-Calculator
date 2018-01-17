@@ -4,7 +4,8 @@ $('document').ready(function() {
   var calcTracker = [];
   var displayClearTracker = 0;
   var afterSumTracker = 0;
-  var decimalCounter = 0;
+  var answerToString;
+  var hasDecimal = false;
   var percent;
   var displayNum = $('#display-num');
   var answer;
@@ -29,12 +30,13 @@ $('document').ready(function() {
       calcTracker = [];
       displayClearTracker = 0;
       afterSumTracker = 0;
-      decimalCounter = 0;
       percent = undefined;
     } else {
       displayNum.text(answer);
     }
   }
+
+
 
   var doMath = () => {
     if (onDisplay.indexOf('%') !== -1) {
@@ -66,7 +68,7 @@ $('document').ready(function() {
       case '+':
         calcTracker = [parseFloat(calcTracker[0]) + parseFloat(displayNum.text())];
         answer = calcTracker[0];
-        onDisplay = [answer];
+        // onDisplay = [answer];
         return answer;
         break;
     }
@@ -115,18 +117,21 @@ $('document').ready(function() {
           for (i = onDisplay.indexOf('.') + 1; i < onDisplay.length; i++) {
             if (onDisplay[i] === '.') {
               onDisplay.splice(-1, 1);
+              console.log('decimal 1')
             }
           }
 
-          if (!Number.isInteger(parseFloat(onDisplay[0])) && decimalCounter > 0) {
+          if (!Number.isInteger(parseFloat(onDisplay[0])) && answerToString === -1) {
               if (onDisplay[onDisplay.length - 1] === '.') {
                 onDisplay.splice(-1, 1);
+                console.log('decimal 2')
               }
             }
         }
 
         if (onDisplay[0] === '0' && onDisplay.length > 1 && onDisplay[1] !== '.') {
           onDisplay.splice(0, 1);
+              console.log('decimal 3')
         }
 
         displayNum.text(onDisplay.join(''));
@@ -155,11 +160,13 @@ $('document').ready(function() {
   }); 
 
   //Sum
-  $('#sum').on('click', function() {   
+  $('#sum').on('click', function() {
     if (calcTracker.length > 1 && displayNum.text() !== '') {
       doMath();
       afterSumTracker++;
-      decimalCounter++;
+      answerToString = answer.toString();
+      hasDecimal = answerToString.indexOf('.');
+      onDisplay[0] =  calcTracker[0];
       tooBig();
     }
   }); 

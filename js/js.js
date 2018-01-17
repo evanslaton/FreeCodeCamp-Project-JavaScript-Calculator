@@ -5,7 +5,7 @@ $('document').ready(function() {
   var displayClearTracker = 0;
   var afterSumTracker = 0;
   var answerToString;
-  var hasDecimal = false;
+  var decimalCounter = 0;
   var percent;
   var displayNum = $('#display-num');
   var answer;
@@ -111,31 +111,25 @@ $('document').ready(function() {
         }
 
         onDisplay.push($(this).find($('.num')).text());
-
-        if (onDisplay.indexOf('.') !== -1) {
-
-          for (i = onDisplay.indexOf('.') + 1; i < onDisplay.length; i++) {
-            if (onDisplay[i] === '.') {
-              onDisplay.splice(-1, 1);
-              console.log('decimal 1')
-            }
-          }
-
-          if (!Number.isInteger(parseFloat(onDisplay[0])) && answerToString === -1) {
-              if (onDisplay[onDisplay.length - 1] === '.') {
-                onDisplay.splice(-1, 1);
-                console.log('decimal 2')
-              }
-            }
-        }
-
-        if (onDisplay[0] === '0' && onDisplay.length > 1 && onDisplay[1] !== '.') {
-          onDisplay.splice(0, 1);
-              console.log('decimal 3')
-        }
-
         displayNum.text(onDisplay.join(''));
         displayClearTracker = 0; 
+      }
+    }
+  });
+
+  $('#decimal').on('click', function() {
+    if (onDisplay && onDisplay.toString().indexOf('.') !== -1) {
+
+      for (i = 0; i < onDisplay.length; i++) {
+        if (onDisplay[i].indexOf('.') !== -1) {
+          decimalCounter++;
+        }
+      }
+
+      if (decimalCounter > 1) {
+        onDisplay.splice(-1, 1);
+        displayNum.text(onDisplay.join(''));
+        decimalCounter = 0;       
       }
     }
   });
@@ -164,9 +158,7 @@ $('document').ready(function() {
     if (calcTracker.length > 1 && displayNum.text() !== '') {
       doMath();
       afterSumTracker++;
-      answerToString = answer.toString();
-      hasDecimal = answerToString.indexOf('.');
-      onDisplay[0] =  calcTracker[0];
+      onDisplay =  [calcTracker[0].toString()];
       tooBig();
     }
   }); 

@@ -41,27 +41,32 @@ $('document').ready(function() {
       percent = parseFloat(onDisplay.join(''));
       percent = (percent * parseFloat(calcTracker[0])) / 100;
       displayNum.text(percent.toString());
+      onDisplay = [];
     }
 
     switch (calcTracker[1]) {
       case '/':
         calcTracker = [parseFloat(calcTracker[0]) / parseFloat(displayNum.text())];
         answer = calcTracker[0];
+        onDisplay = [answer];
         return answer;
         break;
       case '*':
         calcTracker = [parseFloat(calcTracker[0]) * parseFloat(displayNum.text())];
         answer = calcTracker[0];
+        onDisplay = [answer];
         return answer;
         break;
       case '-':
         calcTracker = [parseFloat(calcTracker[0]) - parseFloat(displayNum.text())];
         answer = calcTracker[0];
+        onDisplay = [answer];
         return answer;
         break;
       case '+':
         calcTracker = [parseFloat(calcTracker[0]) + parseFloat(displayNum.text())];
         answer = calcTracker[0];
+        onDisplay = [answer];
         return answer;
         break;
     }
@@ -85,7 +90,6 @@ $('document').ready(function() {
 
   //Numbers and decimal
   $('.num-button').on('click', function() {
-
     if (onDisplay.length < 9) {
 
       if (onDisplay.indexOf('%') === -1) {
@@ -116,7 +120,7 @@ $('document').ready(function() {
 
           if (!Number.isInteger(parseFloat(onDisplay[0])) && decimalCounter > 0) {
               if (onDisplay[onDisplay.length - 1] === '.') {
-                onDisplay.splice(-1, 1);   
+                onDisplay.splice(-1, 1);
               }
             }
         }
@@ -152,7 +156,6 @@ $('document').ready(function() {
 
   //Sum
   $('#sum').on('click', function() {   
-
     if (calcTracker.length > 1 && displayNum.text() !== '') {
       doMath();
       afterSumTracker++;

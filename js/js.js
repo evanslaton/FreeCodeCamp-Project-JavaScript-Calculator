@@ -1,5 +1,4 @@
 $('document').ready(function() {
-
   var onDisplay = [];
   var calcTracker = [];
   var displayClearTracker = 0;
@@ -9,23 +8,23 @@ $('document').ready(function() {
   var percent;
   var displayNum = $('#display-num');
   var answer;
-
-  var clearCalcTracker = () => {
-    calcTracker = [];
-  }
+  var afterDec;
 
   var clearDisplay = () => {
     onDisplay = [];
     displayNum.text('0');
-  };
-
-  var isInt = (n) => {
-     return n % 1 === 0;
+    decimalCounter = 0; 
   };
 
   var tooBig = () => {
-    if (answer > 999999999) {
-      displayNum.text('Too big!');
+    if (answer.toString().indexOf('.') !== -1) {
+      afterDec = answer.toString().split('.')[1].length;
+      if (afterDec > 1) {
+        answer = answer.toFixed(2);
+      }
+    }
+    if (answer.toString().length > 9) {
+      displayNum.text('Too Big');
       onDisplay = [];
       calcTracker = [];
       displayClearTracker = 0;
@@ -34,9 +33,7 @@ $('document').ready(function() {
     } else {
       displayNum.text(answer);
     }
-  }
-
-
+  };
 
   var doMath = () => {
     if (onDisplay.indexOf('%') !== -1) {
@@ -50,25 +47,21 @@ $('document').ready(function() {
       case '/':
         calcTracker = [parseFloat(calcTracker[0]) / parseFloat(displayNum.text())];
         answer = calcTracker[0];
-        onDisplay = [answer];
         return answer;
         break;
       case '*':
         calcTracker = [parseFloat(calcTracker[0]) * parseFloat(displayNum.text())];
         answer = calcTracker[0];
-        onDisplay = [answer];
         return answer;
         break;
       case '-':
         calcTracker = [parseFloat(calcTracker[0]) - parseFloat(displayNum.text())];
         answer = calcTracker[0];
-        onDisplay = [answer];
         return answer;
         break;
       case '+':
         calcTracker = [parseFloat(calcTracker[0]) + parseFloat(displayNum.text())];
         answer = calcTracker[0];
-        // onDisplay = [answer];
         return answer;
         break;
     }
@@ -93,15 +86,12 @@ $('document').ready(function() {
   //Numbers and decimal
   $('.num-button').on('click', function() {
     if (onDisplay.length < 9) {
-
       if (onDisplay.indexOf('%') === -1) {
-
         if (displayClearTracker > 0) {
           clearDisplay();  
         }
-
         if (afterSumTracker === 1) {
-          clearCalcTracker();
+          calcTracker = [];
           afterSumTracker = 0;  
         } else if (afterSumTracker === 2) {
           clearDisplay();
@@ -109,7 +99,6 @@ $('document').ready(function() {
           calcTracker.push($(this).find($('.num')).text());
           afterSumTracker = 0;
         }
-
         onDisplay.push($(this).find($('.num')).text());
         displayNum.text(onDisplay.join(''));
         displayClearTracker = 0; 
@@ -119,17 +108,22 @@ $('document').ready(function() {
 
   $('#decimal').on('click', function() {
     if (onDisplay && onDisplay.toString().indexOf('.') !== -1) {
-
       for (i = 0; i < onDisplay.length; i++) {
         if (onDisplay[i].indexOf('.') !== -1) {
           decimalCounter++;
         }
       }
-
       if (decimalCounter > 1) {
         onDisplay.splice(-1, 1);
+        if (onDisplay[0].indexOf('.') !== -1) {
+          afterDec = onDisplay[0].split('.')[1].length;
+          if (afterDec > 1) {
+            onDisplay[0] = parseFloat(onDisplay[0]).toFixed(2).toString();
+          }
+        }
         displayNum.text(onDisplay.join(''));
-        decimalCounter = 0;       
+        decimalCounter = 0;
+          console.log('firing3');
       }
     }
   });
@@ -171,5 +165,4 @@ $('document').ready(function() {
       }
     }
   });
-
 });

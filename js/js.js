@@ -24,7 +24,7 @@ $('document').ready(function() {
       }
     }
     if (answer.toString().length > 9) {
-      displayNum.text('Too Big');
+      displayNum.text('Too Big!');
       onDisplay = [];
       calcTracker = [];
       displayClearTracker = 0;

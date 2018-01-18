@@ -35,6 +35,14 @@ $('document').ready(function() {
     }
   };
 
+  var pushButton = () => {
+    $('#display-num').addClass('color-azure');
+    setTimeout(function() {
+      $('#display-num').removeClass('color-azure');
+    }, 80);
+       
+  }
+
   var doMath = () => {
     if (onDisplay.indexOf('%') !== -1) {
       percent = parseFloat(onDisplay.join(''));
@@ -85,6 +93,7 @@ $('document').ready(function() {
 
   //Numbers and decimal
   $('.num-button').on('click', function() {
+    pushButton();
     if (onDisplay.length < 9) {
       if (onDisplay.indexOf('%') === -1) {
         if (displayClearTracker > 0) {
@@ -130,6 +139,7 @@ $('document').ready(function() {
 
   //Does Math
   $('.maths').on('click', function() {
+    pushButton();
     if (onDisplay[0]) {
       if (calcTracker.length === 0  && displayNum.text() !== '') {
         calcTracker.push(displayNum.text());
@@ -149,6 +159,7 @@ $('document').ready(function() {
 
   //Sum
   $('#sum').on('click', function() {
+    pushButton();
     if (calcTracker.length > 1 && displayNum.text() !== '') {
       doMath();
       afterSumTracker++;
@@ -158,6 +169,7 @@ $('document').ready(function() {
   }); 
 
   $('#percent').on('click', function() {
+    pushButton();
     if (onDisplay[0]) {
       if (onDisplay.indexOf('%') === -1 && calcTracker[0]) {
         onDisplay.push($(this).find($('p')).text());

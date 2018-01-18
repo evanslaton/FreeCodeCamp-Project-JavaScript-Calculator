@@ -1,8 +1,3 @@
-#calculation {
-  margin-top: 40px;
-  color: white;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -20,7 +15,6 @@ html {
 
 body {
   height: 100%;
-  overflow: hidden;
   background-image: url(https://cdn-images-1.medium.com/max/1600/1*6PDupq8TxKAYDCVq5Oyzlw.png);
   background-size: cover;
   background-repeat: no-repeat;
@@ -50,6 +44,10 @@ body {
   background-color: azure;
   border-radius: 5px;
   opacity: 1;
+}
+
+.color-azure {
+  color: azure;
 }
 
 .row {
